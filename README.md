@@ -6,7 +6,7 @@
 
 ## Descrição
   Ecoleta é uma aplicação que tem o objetivo de ajudar as pessoas a encontrarem pontos de coleta de itens recicláveis.
-  Inicialmente desenvolvida na NLW#01 (evento produzido pela <a href='https://rocketseat.com.br/'> Rocketseat <a>).
+  Inicialmente desenvolvida na NLW#01 (evento produzido pela <a href='https://rocketseat.com.br/'>Rocketseat<a>).
   
 
 ## Tecnologias utilizadas
