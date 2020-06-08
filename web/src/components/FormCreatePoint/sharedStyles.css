@@ -1,0 +1,67 @@
+.layout-fieldset {
+    margin-top: 64px;
+    min-inline-size: auto;
+    border: 0;
+}
+
+.layout-fieldset legend {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.layout-fieldset legend h2 {
+    font-size: 24px;
+}
+
+.layout-fieldset legend span {
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+.field-group {
+    flex: 1;
+    display: flex;
+}
+
+.field-group .field + .field {
+    margin-left: 24px;
+}
+
+.field-group input + input {
+    margin-left: 24px;
+}
+
+.field {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+.field input[type=text], 
+.field input[type=email], 
+.field input[type=number] {
+    flex: 1;
+    background: #F0F0F5;
+    border-radius: 8px;
+    border: 0;
+    padding: 16px 24px;
+    font-size: 16px;
+    color: #6C6C80;
+}
+
+.field label {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.field :disabled {
+    cursor: not-allowed;
+}
+
+
+
