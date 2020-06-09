@@ -10,6 +10,7 @@ import Dropzone from '../../components/Dropzone';
 import PointData from '../../components/FormCreatePoint/PointData';
 import PointAddress from '../../components/FormCreatePoint/PointAddress';
 import PointItems from '../../components/FormCreatePoint/PointItems';
+import RegistrationMessage from '../../components/RegistrationMessage';
 
 import { createData } from './helpers'
 
@@ -52,6 +53,9 @@ const CreatPoint = () => {
     const [selectedCity, setSelectedCity] = useState('0');
     const [selectedMapPosition, setSelectedMapPosition] = useState<[number, number]>([0,0]);
     const [selectedFile, setSelectedFile] = useState<File>();
+
+    const [isResponse, setIsResponse] = useState(false);
+    const [responseError, setResponseError] = useState({});
 
 
     useEffect( () => {
@@ -129,10 +133,18 @@ const CreatPoint = () => {
 
         const data = createData( pointData, selectedMapPosition, selectedUf, selectedCity, selectedItems, selectedFile);
 
-        await api.post('points', data);
+        await api.post('points', data)
+            .then( res => {
+                console.log(res);
+                return setIsResponse(true);
+            })
+            .catch( error => {
+                setResponseError(error.response.data)
+                return setIsResponse(true);
+            });
         
-        alert('ponto cadastrado com sucesso!');
-        history.push('/');
+        // alert('ponto cadastrado com sucesso!');
+        // history.push('/');
     };
 
 
@@ -170,6 +182,8 @@ const CreatPoint = () => {
                 <button type='submit'>
                     Cadastrar Ponto de Coleta
                 </button>
+
+                <RegistrationMessage isMessage={  isResponse } error={ responseError } />
 
             </form>
         </div>
