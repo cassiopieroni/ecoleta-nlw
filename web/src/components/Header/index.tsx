@@ -1,26 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
+import DefaultLink from '../Links/DefaultLink';
 import logo from '../../assets/logo.svg';
 import { FiArrowLeft } from 'react-icons/fi';
 import './styles.css';
 
 
-interface Props {
-    isLinkToHome ? : boolean;
-}
-
-
-const Header: React.FC<Props> = ({ isLinkToHome }) => (
+const Header: React.FC = ({ children }) => (
     
     <header className='layout-header'>
         <img src={ logo } alt="logotipo ecoleta"/>
-        { isLinkToHome && (
-            <Link to='/'>
+        { children ? (
+            children
+        ) : (
+            <DefaultLink to='/'>
                 <FiArrowLeft />
-                Voltar para a home
-            </Link>
-        )}
+                Voltar para home
+            </DefaultLink>
+        ) }
     </header>
 );
 

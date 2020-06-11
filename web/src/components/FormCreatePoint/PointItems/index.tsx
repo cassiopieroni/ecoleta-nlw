@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { IncompleteFieldsOnForm } from '../../../pages/CreatePoint';
 
 import '../sharedStyles.css';
 import './styles.css';
@@ -15,28 +17,35 @@ interface Props {
 }
 
 
-const PointItems: React.FC<Props> = ({ items, onSelected, selectedItems }) => (
+const PointItems: React.FC<Props> = ({ items, onSelected, selectedItems }) => {
 
-    <fieldset className='layout-fieldset'>
-        <legend>
-            <h2>itens de coleta</h2>
-            <span>Selecione um ou mais items abaixo</span>
-        </legend>
+    const incompleteForm = useContext( IncompleteFieldsOnForm);
+
+    const fillErrorStyle = (incompleteForm && !selectedItems.length) ? 'isError' : '';
+
+    return (
+
+        <fieldset className='layout-fieldset'>
+            <legend>
+                <h2>itens de coleta</h2>
+                <span className={ fillErrorStyle }>Selecione um ou mais items abaixo</span>
+            </legend>
+                
+                <ul className="items-grid">
+                    { items.map( item => (
+                        <li 
+                            key={ item.id } 
+                            onClick={ () => onSelected(item.id) } 
+                            className={ selectedItems.includes(item.id) ? 'selected' : '' }    
+                        >
+                            <img src={ item.image_url } alt={ item.title }/>
+                            <span>{ item.title }</span>
+                        </li>
+                    ))}   
+                </ul>
             
-            <ul className="items-grid">
-                { items.map( item => (
-                    <li 
-                        key={ item.id } 
-                        onClick={ () => onSelected(item.id) } 
-                        className={ selectedItems.includes(item.id) ? 'selected' : '' }    
-                    >
-                        <img src={ item.image_url } alt={ item.title }/>
-                        <span>{ item.title }</span>
-                    </li>
-                ))}   
-            </ul>
-        
-    </fieldset>
-);
+        </fieldset>
+    );
+}
 
 export default PointItems;

@@ -1,5 +1,4 @@
-import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState, createContext, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import api from '../../services/api';
 
@@ -10,6 +9,7 @@ import Dropzone from '../../components/Dropzone';
 import PointData from '../../components/FormCreatePoint/PointData';
 import PointAddress from '../../components/FormCreatePoint/PointAddress';
 import PointItems from '../../components/FormCreatePoint/PointItems';
+import FillErrorMessage from '../../components/FillErrorMessage';
 import RegistrationMessage from '../../components/RegistrationMessage';
 
 import { createData } from './helpers'
@@ -31,31 +31,32 @@ interface IBGECityResponse {
     nome: string;
 }
 
+export const IncompleteFieldsOnForm = createContext(false);
+
+
 const CreatPoint = () => {
-
-    const history = useHistory();
-
-
-    const [initialMapPosition, setInitialMapPosition] = useState<[number, number]>([0,0]);
-
-    const [items, setItems] = useState<Item[]>([]);
-    const [ufs, setUfs] = useState<string[]>([]);
-    const [cities, setCities] = useState<string[]>([]);
 
     const [pointData, setPointData] = useState({
         name: '',
         email: '',
         whatsapp: '',
     });
+    const [initialMapPosition, setInitialMapPosition] = useState<[number, number]>([0,0]);
+    const [ufs, setUfs] = useState<string[]>([]);
+    const [cities, setCities] = useState<string[]>([]);
+    const [items, setItems] = useState<Item[]>([]);
 
-    const [selectedItems, setSelectedItems] = useState<number[]>([]);
-    const [selectedUf, setSelectedUf] = useState('0');
-    const [selectedCity, setSelectedCity] = useState('0');
-    const [selectedMapPosition, setSelectedMapPosition] = useState<[number, number]>([0,0]);
     const [selectedFile, setSelectedFile] = useState<File>();
+    const [selectedMapPosition, setSelectedMapPosition] = useState<[number, number]>( [0,0]);
+    const [selectedUf, setSelectedUf] = useState( '0');
+    const [selectedCity, setSelectedCity] = useState( '0');
+    const [selectedItems, setSelectedItems] = useState<number[]>([]); 
 
-    const [isResponse, setIsResponse] = useState(false);
-    const [responseError, setResponseError] = useState({});
+    const [isApiResponse, setIsApiResponse] = useState( false);
+    const [apiResponseError, setApiResponseError] = useState( {});
+
+    const [isValidForm, setIsValidForm] = useState( false);
+    const [isShowingMsgsToFillForm, setIsShowingMsgsToFillForm] = useState( false);
 
 
     useEffect( () => {
@@ -94,7 +95,24 @@ const CreatPoint = () => {
                 const cityNames = res.data.map( city => city.nome );
                 setCities(cityNames);
             })
-    }, [selectedUf])
+    }, [selectedUf]);
+
+    useEffect( () => {
+
+        const { name, email, whatsapp } = pointData;
+
+        const isCompleteForm = () => (
+            (selectedFile && selectedFile.name) &&
+            (name && email && whatsapp) &&
+            (selectedUf !== '0' && selectedCity !== '0') && 
+            (selectedMapPosition[0] !== 0  && selectedMapPosition[1] !== 0) &&
+            (selectedItems.length)
+        );
+
+        isCompleteForm() ? setIsValidForm( true) : setIsValidForm( false);
+
+    }, [selectedFile, pointData, selectedUf, selectedCity, selectedMapPosition, selectedItems]);
+    
 
 
     const handleSelectedAddress = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -130,21 +148,28 @@ const CreatPoint = () => {
     const handleSubmit = async (event: FormEvent) => {
 
         event.preventDefault();
-
-        const data = createData( pointData, selectedMapPosition, selectedUf, selectedCity, selectedItems, selectedFile);
-
-        await api.post('points', data)
-            .then( res => {
-                console.log(res);
-                return setIsResponse(true);
-            })
-            .catch( error => {
-                setResponseError(error.response.data)
-                return setIsResponse(true);
-            });
         
-        // alert('ponto cadastrado com sucesso!');
-        // history.push('/');
+        if (isValidForm) {
+
+            const data = createData( 
+                pointData, selectedMapPosition, selectedUf, 
+                selectedCity, selectedItems, selectedFile
+            );
+
+            await api.post('points', data)
+                .then( res => {
+                    console.log(res);
+                    return setIsApiResponse(true);
+                })
+                .catch( error => {
+                    setApiResponseError(error.response.data)
+                    return setIsApiResponse(true);
+                });
+
+        } else {
+
+            return setIsShowingMsgsToFillForm( true);
+        }
     };
 
 
@@ -152,40 +177,53 @@ const CreatPoint = () => {
 
         <div id="page-create-point">
             
-            <Header isLinkToHome />
+            <Header />
 
-            <form onSubmit={ handleSubmit }>
+            <IncompleteFieldsOnForm.Provider value={ isShowingMsgsToFillForm } >
+                
+                <form onSubmit={ handleSubmit }>
 
-                <h1>Cadastro do ponto de coleta</h1>
+                    <h1>Cadastro do ponto de coleta</h1>
 
-                <Dropzone onFileUploaded={ setSelectedFile } /> 
+                    <Dropzone onFileUploaded={ setSelectedFile } />
 
-                <PointData changed={ handleChangePointData } />
+                    <PointData 
+                        changed={ handleChangePointData } 
+                        data={ pointData }    
+                    />
 
-                <PointAddress
-                    clickedOnMap={ handleMapClick }
-                    changeAddress={ handleSelectedAddress }
-                    initialPosition={ initialMapPosition }
-                    selectedPosition={ selectedMapPosition }
-                    selectedUf={ selectedUf }
-                    ufs={ ufs }
-                    selectedCity={ selectedCity }
-                    cities={ cities }
-                />
+                    <PointAddress
+                        clickedOnMap={ handleMapClick }
+                        changeAddress={ handleSelectedAddress }
+                        initialPosition={ initialMapPosition }
+                        selectedPosition={ selectedMapPosition }
+                        selectedUf={ selectedUf }
+                        ufs={ ufs }
+                        selectedCity={ selectedCity }
+                        cities={ cities }
+                    />
 
-                <PointItems 
-                    onSelected={ handleSelectedItem }
-                    items={ items }
-                    selectedItems={ selectedItems }
-                />
+                    <PointItems 
+                        onSelected={ handleSelectedItem }
+                        items={ items }
+                        selectedItems={ selectedItems }
+                    />
 
-                <button type='submit'>
-                    Cadastrar Ponto de Coleta
-                </button>
+                    <div>
+                        <button type='submit'>
+                            Cadastrar Ponto de Coleta
+                        </button>
 
-                <RegistrationMessage isMessage={  isResponse } error={ responseError } />
+                        { (isShowingMsgsToFillForm && !isValidForm) && 
+                            <FillErrorMessage>Preencha os campos obrigatórios*</FillErrorMessage>
+                        }
+                    </div>
+                    
 
-            </form>
+                    <RegistrationMessage isMessage={  isApiResponse } error={ apiResponseError } />
+
+                </form>
+            </IncompleteFieldsOnForm.Provider>
         </div>
     )
 }

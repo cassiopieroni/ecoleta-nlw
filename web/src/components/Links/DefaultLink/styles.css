@@ -1,0 +1,14 @@
+.defaultLink {
+    color: var(--title-color);
+    font-weight: bold;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    margin: 16px;
+}
+
+.defaultLink svg {
+    margin-right: 16px;
+    color: var(--primary-color);
+}

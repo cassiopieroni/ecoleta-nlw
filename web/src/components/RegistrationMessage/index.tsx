@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultLink from '../DefaultLink';
+import DefaultLink from '../Links/DefaultLink';
 import { FiArrowLeft } from 'react-icons/fi';
 import { MdErrorOutline } from 'react-icons/md'
 import { FaRegCheckCircle } from 'react-icons/fa';
@@ -8,7 +8,7 @@ import './styles.css';
 
 interface Props {
     isMessage: boolean,
-    error?: {
+    error: {
         statusCode?: number,
         message?: string,
         error?: string,
@@ -24,7 +24,7 @@ const RegistrationMessage: React.FC<Props> = ({ isMessage, error }) => {
     return (
         <div className='messageBg'>
             <div className='message' >
-                { error?.statusCode ? (
+                { error.statusCode ? (
                     <>
                         <h2>{`${error.error} (${error.statusCode})`}</h2>
                         <div>
@@ -42,9 +42,9 @@ const RegistrationMessage: React.FC<Props> = ({ isMessage, error }) => {
                     </>
                 )}
 
-                <DefaultLink to='/' size='small'>
-                    <span><FiArrowLeft /></span>
-                    <strong>Voltar para a home</strong>
+                <DefaultLink to='/'>
+                    <FiArrowLeft />
+                    Voltar para a home
                 </DefaultLink>
             </div>    
         </div>

@@ -25,10 +25,11 @@
 .field-group {
     flex: 1;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .field-group .field + .field {
-    margin-left: 24px;
+    /* margin-left: 24px; */
 }
 
 .field-group input + input {
@@ -39,13 +40,12 @@
     flex: 1; 
     display: flex;
     flex-direction: column;
-    margin-bottom: 24px;
+    margin: 0 8px 24px 8px;
 }
 
 .field input[type=text], 
 .field input[type=email], 
 .field input[type=number] {
-    flex: 1;
     background: #F0F0F5;
     border-radius: 8px;
     border: 0;

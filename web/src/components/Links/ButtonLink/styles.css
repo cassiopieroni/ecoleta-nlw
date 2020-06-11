@@ -1,19 +1,28 @@
-.defaultLink {
+.buttonLink {
     width: 100%;
     max-width: 360px;
     height: 72px;
+    margin: 40px auto 0;
     background: var(--primary-color);
     border-radius: 8px;
+    border: none;
+}
+
+.buttonLink a {
+    width: 100%;
+    height: 72px;
     text-decoration: none;
-  
+    border-radius: 8px;
     display: flex;
     align-items: center;
     overflow: hidden;
-  
-    margin: 40px auto 0;
 }
+    .buttonLink a:hover {
+        background: #2FB86E;
+    }
 
-.defaultLink span {
+
+.buttonLink a span {
     display: block;
     background: rgba(0, 0, 0, 0.08);
     width: 72px;
@@ -25,29 +34,14 @@
     transition: background-color 0.2s;
 }
 
-.defaultLink span svg {
+.buttonLink a span svg {
     color: #FFF;
     width: 20px;
     height: 20px;
 }
 
-.defaultLink strong {
+.buttonLink a strong {
     flex: 1;
     text-align: center;
     color: #FFF;
-}
-
-.defaultLink:hover {
-    background: #2FB86E;
-}
-
-.small {
-    width: 100%;
-    max-width: 280px;
-    height: 56px;
-}
-
-.small span {
-    width: 56px;
-    height: 56px;
 }

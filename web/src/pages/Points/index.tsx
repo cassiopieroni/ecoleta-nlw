@@ -6,7 +6,7 @@ const Points = () => {
 
     return (
         <>
-            <Header isLinkToHome />
+            <Header/>
             <h1>Encontre um ponto de coleta</h1>
         </>
     )

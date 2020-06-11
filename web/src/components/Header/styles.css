@@ -1,23 +1,10 @@
 .layout-header {
+  width: 100%;
   margin: 48px 0 0;
   padding: 0 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.layout-header a {
-  color: var(--title-color);
-  font-weight: bold;
-  text-decoration: none;
-
-  display: flex;
-  align-items: center;
-}
-
-.layout-header a svg {
-  margin-right: 16px;
-  color: var(--primary-color);
 }
 
 @media(max-width: 900px) {
