@@ -1,12 +1,12 @@
 import React, { useCallback, useState, useContext } from 'react'
 import {useDropzone} from 'react-dropzone'
 
-import FillErrorMessage from '../FillErrorMessage';
+import IncompleteFormMessage from '../Forms/IncompleteFormMessage';
 
 import { FiUpload } from 'react-icons/fi';
 import './styles.css';
 
-import { IncompleteFieldsOnForm } from '../../pages/CreatePoint';
+import { IncompleteFieldsOnFormContext } from '../../pages/CreatePoint';
 
 
 interface Props {
@@ -18,7 +18,7 @@ const Dropzone: React.FC<Props> = ({ onFileUploaded }) => {
 
     const [selectedFileUrl, setSelectedFileUrl] = useState('');
 
-    const incompleteForm = useContext( IncompleteFieldsOnForm);
+    const incompleteForm = useContext( IncompleteFieldsOnFormContext);
 
     const onDrop = useCallback(acceptedFiles => {
         
@@ -52,7 +52,7 @@ const Dropzone: React.FC<Props> = ({ onFileUploaded }) => {
             </div>
 
             { ( incompleteForm && !selectedFileUrl ) &&
-                <FillErrorMessage>*É necessário uma imagem do estabelecimento.</FillErrorMessage>
+                <IncompleteFormMessage>*É necessário uma imagem do estabelecimento.</IncompleteFormMessage>
             }
         </>
     )

@@ -28,10 +28,6 @@
     flex-wrap: wrap;
 }
 
-.field-group .field + .field {
-    /* margin-left: 24px; */
-}
-
 .field-group input + input {
     margin-left: 24px;
 }

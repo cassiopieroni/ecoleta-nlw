@@ -1,7 +1,5 @@
 #page-home {
     height: 100vh;
-  
-    background: url('../../assets/home-background.svg') no-repeat 700px bottom;
   }
   
   #page-home .content {
@@ -18,11 +16,15 @@
   
   #page-home .content main {
     flex: 1;
-    max-width: 560px;
-  
+    max-width: 1060px;
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    align-items: center;
+  }
+
+  #page-home .content main div:first-child {
+    width: 55%;
   }
   
   #page-home .content main h1 {
@@ -34,6 +36,19 @@
     font-size: 24px;
     margin-top: 24px;
     line-height: 38px;
+  }
+
+  .imageBox {
+    width: 45%;
+    max-width: 700px;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .imageBox img {
+    width: 100%;
   }
   
   @media(max-width: 900px) {
@@ -52,6 +67,10 @@
   
     #page-home .content main p {
       font-size: 24px;
+    }
+
+    .imageBox {
+      display: none;
     }
   }
   

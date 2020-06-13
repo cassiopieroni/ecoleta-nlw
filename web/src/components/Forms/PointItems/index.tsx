@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { IncompleteFieldsOnForm } from '../../../pages/CreatePoint';
+import { IncompleteFieldsOnFormContext } from '../../../pages/CreatePoint';
 
 import '../sharedStyles.css';
 import './styles.css';
@@ -14,24 +14,26 @@ interface Props {
         image_url: string;
     }[];
     selectedItems: number[];
+    size?: string;
 }
 
 
-const PointItems: React.FC<Props> = ({ items, onSelected, selectedItems }) => {
+const PointItems: React.FC<Props> = ({ items, onSelected, selectedItems, size }) => {
 
-    const incompleteForm = useContext( IncompleteFieldsOnForm);
+    const incompleteForm = useContext( IncompleteFieldsOnFormContext);
 
-    const fillErrorStyle = (incompleteForm && !selectedItems.length) ? 'isError' : '';
+    const isError = (incompleteForm && !selectedItems.length) ? 'isError' : '';
+    const classItems = (size === 'small') ? 'items-grid small' : 'items-grid';
 
     return (
 
         <fieldset className='layout-fieldset'>
             <legend>
                 <h2>itens de coleta</h2>
-                <span className={ fillErrorStyle }>Selecione um ou mais items abaixo</span>
+                <span className={ isError }>Selecione um ou mais items abaixo</span>
             </legend>
                 
-                <ul className="items-grid">
+                <ul className={ classItems }>
                     { items.map( item => (
                         <li 
                             key={ item.id } 

@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useContext } from 'react';
 
-import FillErrorMessage from '../../FillErrorMessage';
+import IncompleteFormMessage from '../IncompleteFormMessage';
 
 import '../sharedStyles.css';
 
-import { IncompleteFieldsOnForm } from '../../../pages/CreatePoint';
+import { IncompleteFieldsOnFormContext } from '../../../pages/CreatePoint';
 
 
 interface Props {
@@ -21,7 +21,7 @@ const PointData: React.FC<Props> = ({ changed, data }) => {
 
     const { name, email, whatsapp } = data;
 
-    const incompleteForm = useContext( IncompleteFieldsOnForm);
+    const incompleteForm = useContext( IncompleteFieldsOnFormContext);
 
 
     return (
@@ -44,7 +44,7 @@ const PointData: React.FC<Props> = ({ changed, data }) => {
                 />
 
                 { ( incompleteForm && !name ) && 
-                    <FillErrorMessage>*Preencha o nome.</FillErrorMessage>
+                    <IncompleteFormMessage>*Preencha o nome.</IncompleteFormMessage>
                 }
             </div>
 
@@ -60,7 +60,7 @@ const PointData: React.FC<Props> = ({ changed, data }) => {
                         value={ email }
                     />
                     { ( incompleteForm && !email ) && 
-                        <FillErrorMessage>*Preencha o email.</FillErrorMessage>
+                        <IncompleteFormMessage>*Preencha o email.</IncompleteFormMessage>
                     }
                 </div>
                 
@@ -74,7 +74,7 @@ const PointData: React.FC<Props> = ({ changed, data }) => {
                         value={ whatsapp }
                     />
                     { ( incompleteForm && !whatsapp ) && 
-                        <FillErrorMessage>*Preencha o whatsapp.</FillErrorMessage>
+                        <IncompleteFormMessage>*Preencha o whatsapp.</IncompleteFormMessage>
                     }
                 </div>
             

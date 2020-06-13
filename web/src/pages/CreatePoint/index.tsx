@@ -6,10 +6,10 @@ import { LeafletMouseEvent } from 'leaflet';
 
 import Header from '../../components/Header';
 import Dropzone from '../../components/Dropzone';
-import PointData from '../../components/FormCreatePoint/PointData';
-import PointAddress from '../../components/FormCreatePoint/PointAddress';
-import PointItems from '../../components/FormCreatePoint/PointItems';
-import FillErrorMessage from '../../components/FillErrorMessage';
+import PointData from '../../components/Forms/PointData';
+import PointAddress from '../../components/Forms/PointAddress';
+import PointItems from '../../components/Forms/PointItems';
+import IncompleteFormMessage from '../../components/Forms/IncompleteFormMessage';
 import RegistrationMessage from '../../components/RegistrationMessage';
 
 import { createData } from './helpers'
@@ -31,7 +31,7 @@ interface IBGECityResponse {
     nome: string;
 }
 
-export const IncompleteFieldsOnForm = createContext(false);
+export const IncompleteFieldsOnFormContext = createContext(false);
 
 
 const CreatPoint = () => {
@@ -179,7 +179,7 @@ const CreatPoint = () => {
             
             <Header />
 
-            <IncompleteFieldsOnForm.Provider value={ isShowingMsgsToFillForm } >
+            <IncompleteFieldsOnFormContext.Provider value={ isShowingMsgsToFillForm } >
                 
                 <form onSubmit={ handleSubmit }>
 
@@ -215,7 +215,7 @@ const CreatPoint = () => {
                         </button>
 
                         { (isShowingMsgsToFillForm && !isValidForm) && 
-                            <FillErrorMessage>Preencha os campos obrigatórios*</FillErrorMessage>
+                            <IncompleteFormMessage>Preencha os campos obrigatórios*</IncompleteFormMessage>
                         }
                     </div>
                     
@@ -223,7 +223,7 @@ const CreatPoint = () => {
                     <RegistrationMessage isMessage={  isApiResponse } error={ apiResponseError } />
 
                 </form>
-            </IncompleteFieldsOnForm.Provider>
+            </IncompleteFieldsOnFormContext.Provider>
         </div>
     )
 }

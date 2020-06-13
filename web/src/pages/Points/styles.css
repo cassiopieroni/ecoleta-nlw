@@ -1,0 +1,57 @@
+#points {
+    width: 100%;
+    max-width: 1100px;
+  
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #points section {
+    margin: 80px auto;
+    padding: 64px;
+    max-width: 730px;
+    background: #FFF;
+    border-radius: 8px;
+
+  }
+  
+  #points form {
+    
+  
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #points form h1 {
+    font-size: 36px;
+  }
+
+  .responseBox {
+    width: 100%;
+    margin: 24px auto;
+  }
+
+  .responseBox ul {
+    
+    margin: 24px auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .responseBox span {
+    width: 100%;
+    padding: 24px;
+    font-size: 1.1rem;
+    font-style: italic;
+    background-color: #E1FAEC;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  } 
+  
+

@@ -1,14 +1,3 @@
-.leaflet-container {
-	width: 100%;
-	height: 350px;
-	border-radius: 8px;
-	margin-bottom: 8px;
-}
-
-.mapBox {
-    margin-bottom: 24px;
-}
-
 .field select {
     -webkit-appearance: none;
     -moz-appearance: none;
