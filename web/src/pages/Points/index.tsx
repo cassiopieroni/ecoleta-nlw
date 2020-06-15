@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import api from '../../services/api';
 
@@ -32,6 +33,8 @@ interface Point {
 }
 
 const Points = () => {
+
+    const history = useHistory();
 
     const [ufs, setUfs] = useState<string[]>([]);
     const [cities, setCities] = useState<string[]>([]);
@@ -128,6 +131,10 @@ const Points = () => {
         setSelectedItems(newItems);
     }
 
+    const handleChangePage = (id: number) => {
+        history.push(`/points/${id}`);
+    }
+
 
     return (
         <div id='points'>
@@ -176,7 +183,11 @@ const Points = () => {
                             <h2>Pontos de coleta: </h2>
                             <ul>
                                 { filtredPoints.map( (point: Point) => (
-                                    <CollectPoint key={ point.id } point={ point } />
+                                    <CollectPoint 
+                                        key={ point.id } 
+                                        point={ point } 
+                                        clicked={ handleChangePage }    
+                                    />
                                 )) }
                             </ul>
                         </>

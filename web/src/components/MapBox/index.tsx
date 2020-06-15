@@ -7,7 +7,7 @@ import './styles.css';
 interface Props {
     initialPosition: [number, number];
     selectedPosition: [number, number];
-    clickedOnMap: (event: LeafletMouseEvent) => void;
+    clickedOnMap?: (event: LeafletMouseEvent) => void;
 }
 
 

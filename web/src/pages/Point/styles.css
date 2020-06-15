@@ -1,0 +1,113 @@
+#page-point {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #page-point main {
+    margin: 80px auto;
+    padding: 64px;
+    max-width: 730px;
+    background: #FFF;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #page-point h1 {
+    font-size: 36px;
+    color: var(--title-color);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  #page-point h2 {
+	color: var(--title-color);
+	text-align: center;
+  }
+
+  #page-point main .point-image {
+	width: 100%;
+	margin-bottom: 32px;
+  }
+
+  #page-point .point-items {
+	margin: 32px 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+  }
+
+  #page-point .point-items .items-content{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	margin-top: 24px;
+  }
+
+  #page-point .contact {
+	margin: 32px 0;
+    display: flex;
+    align-items: center;
+	justify-content: center;
+	flex-direction: column;
+  }
+
+  #page-point .contact-content {
+	display: flex;
+    align-items: center;
+	justify-content: center;
+	margin: 24px 0;
+  }
+
+  #page-point .contact .contact-infos {
+	width: 45%;
+	margin: 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+  }
+
+  #page-point .contact .contact-infos div {
+    margin: 8px 8px 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #page-point .contact .contact-infos div p {
+    width: 100%;
+	text-align: right;
+	margin-left: 8px;
+  }
+
+  #page-point .contact .map {
+	width: 55%;
+	min-width: 250px;
+	height: 200px;
+  }
+
+  #page-point .contact .leaflet-container {
+	max-height: 100%;
+  }
+
+
+
+  
+@media(max-width: 600px) {
+	
+	#page-point .contact .contact-content{
+		margin-top: 8px;
+		flex-direction: column;
+	}
+
+	#page-point .contact .contact-infos {
+		width: 100%;
+		align-items: center;
+		margin-bottom: 24px;
+	}
+}

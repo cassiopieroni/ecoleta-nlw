@@ -3,7 +3,9 @@ import React from 'react';
 import './styles.css';
 
 interface Props {
+    clicked: (id: number) => void;
     point: {
+        id: number;
         email: string;
         image_url: string;
         name: string;
@@ -11,12 +13,12 @@ interface Props {
     }
 }
 
-const CollectPoint: React.FC<Props> = ({ point }) => {
+const CollectPoint: React.FC<Props> = ({ point, clicked }) => {
 
-    const { email, image_url, name, whatsapp } = point;
+    const { id, email, image_url, name, whatsapp } = point;
 
     return (
-        <li className='collectPoint'>
+        <li className='collectPoint' onClick={ () => clicked(id)}>
             <img src={ image_url } alt={ name } />
             <h2>{ name }</h2>
             <p>{ email }</p>

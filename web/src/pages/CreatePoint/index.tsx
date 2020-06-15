@@ -136,7 +136,7 @@ const CreatPoint = () => {
     }
 
     const handleSelectedItem = (id: number) => {
-        
+        console.log('item')
         const isAlreadySelected = selectedItems.some( item => item === id );
         const newItems = (isAlreadySelected) 
             ? selectedItems.filter( item => item !== id)
