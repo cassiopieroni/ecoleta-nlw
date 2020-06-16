@@ -1,0 +1,63 @@
+.contact {
+    margin: 32px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.contact-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 24px 0;
+}
+
+.contact .contact-infos {
+    width: 45%;
+    margin: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.contact .contact-infos div {
+    margin: 8px 8px 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact .contact-infos div p {
+    width: 100%;
+    text-align: right;
+    margin-left: 8px;
+}
+
+.contact .map {
+    width: 55%;
+    min-width: 250px;
+    height: 200px;
+}
+
+.contact .leaflet-container {
+    max-height: 100%;
+}
+
+
+
+  
+@media(max-width: 600px) {
+	
+	.contact .contact-content{
+        margin-top: 8px;
+        flex-direction: column;
+	}
+
+	.contact .contact-infos {
+		width: 100%;
+		align-items: center;
+		margin-bottom: 24px;
+	}
+}

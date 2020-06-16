@@ -27,7 +27,6 @@ const Item: React.FC<Props> = ({ item, isSelected, onSelected, size }) => {
     return (
 
         <li 
-            key={ item.id } 
             onClick={ clicked }
             className={ classStyle }
         >

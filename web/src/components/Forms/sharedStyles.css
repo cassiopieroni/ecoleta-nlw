@@ -20,12 +20,14 @@
     font-size: 14px;
     font-weight: normal;
     color: var(--text-color);
+    margin-left: 8px;
 }
 
 .field-group {
     flex: 1;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .field-group input + input {
@@ -58,6 +60,3 @@
 .field :disabled {
     cursor: not-allowed;
 }
-
-
-
