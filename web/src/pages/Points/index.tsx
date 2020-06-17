@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+
 import api from '../../services/api';
 
 import Header from '../../components/Header';
@@ -11,20 +11,14 @@ import PointCard from '../../components/PointCard';
 import { withItemsData } from '../../hocs/withItemsData';
 import { withUfsData } from '../../hocs/withUfsData';
 
+import { useCitiesByUf } from '../../hooks/useCitiesByUf';
+
 import './styles.css';
 
 interface Item {
     id: number;
     title: string;
     image_url: string;
-}
-
-interface IBGEUFResponse {
-    sigla: string;
-}
-
-interface IBGECityResponse {
-    nome: string;
 }
 
 interface Point {
@@ -46,7 +40,6 @@ const Points = (props: Props) => {
 
     const history = useHistory();
 
-    const [cities, setCities] = useState<string[]>([]);
     const [selectedUf, setSelectedUf] = useState( '0');
     const [selectedCity, setSelectedCity] = useState( '0');
 
@@ -56,30 +49,18 @@ const Points = (props: Props) => {
 
     const [layoutStage, setLayoutStage] = useState({
         isFetchingData: false,
-        isFetched: false,
+        isFetchedData: false,
     });
 
 
-    useEffect( () => {
-
-        if (selectedUf === '0') {
-            return;
-        }
- 
-        axios
-            .get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`)
-            .then( res => {
-                const cityNames = res.data.map( city => city.nome );
-                setCities(cityNames);
-            })
-    }, [selectedUf]);
+    const cities = useCitiesByUf(selectedUf);
 
 
     useEffect( () => {
 
         const fetchingFiltredPoints = () => {
 
-            setLayoutStage( { ...layoutStage, isFetchingData: true });
+            setLayoutStage( prevState => ({ ...prevState, isFetchingData: true }) );
 
             const items = String( selectedItems.join(',').trim());
 
@@ -90,15 +71,14 @@ const Points = (props: Props) => {
                     items
                 }
             }).then( res => {
-                setLayoutStage( { ...layoutStage, isFetchingData: false, isFetched: true });
+                setLayoutStage( prevState => ({ ...prevState, isFetchingData: false, isFetchedData: true }) );
                 setFiltredPoints(res.data);
             });
         }
 
 
         setFiltredPoints([]);
-        setLayoutStage( { ...layoutStage, isFetched: false });
-
+        setLayoutStage( prevState => ({ ...prevState, isFetchedData: false }) );
         
         if (selectedUf !== '0' && selectedCity !== '0' && selectedItems.length) {
             
@@ -130,7 +110,10 @@ const Points = (props: Props) => {
     }
 
 
+    const { isFetchingData, isFetchedData } = layoutStage;
+
     return (
+
         <div id='points'>
             
             <Header/>
@@ -168,11 +151,11 @@ const Points = (props: Props) => {
 
                 <div className='responseBox'>
                     
-                    { layoutStage.isFetchingData && (
+                    { isFetchingData && (
                         <span>Buscando Pontos de coleta...</span>
                     )}
 
-                    { (layoutStage.isFetched && filtredPoints.length > 0 ) && (
+                    { (isFetchedData && filtredPoints.length > 0 ) && (
                         <>
                             <h2>Pontos de coleta: </h2>
                             <ul>
@@ -187,7 +170,7 @@ const Points = (props: Props) => {
                         </>
                     )}
 
-                    { (layoutStage.isFetched && filtredPoints.length === 0) && (
+                    { (isFetchedData && filtredPoints.length === 0) && (
                         <span>Não há nenhum ponto de coleta deste tipo cadastrado nessa região.</span>
                     )}
                 </div>

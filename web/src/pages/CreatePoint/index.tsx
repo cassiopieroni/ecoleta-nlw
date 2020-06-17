@@ -1,5 +1,4 @@
 import React, { useEffect, useState, createContext, ChangeEvent, FormEvent } from 'react';
-import axios from 'axios';
 import api from '../../services/api';
 
 import { LeafletMouseEvent } from 'leaflet';
@@ -15,6 +14,8 @@ import RegistrationMessage from '../../components/RegistrationMessage';
 import { withItemsData } from '../../hocs/withItemsData';
 import { withUfsData } from '../../hocs/withUfsData';
 
+import { useCitiesByUf } from '../../hooks/useCitiesByUf';
+
 import { createFormData } from './helpers'
 
 import './styles.css';
@@ -24,14 +25,6 @@ interface Item {
     id: number;
     title: string;
     image_url: string;
-}
-
-interface IBGEUFResponse {
-    sigla: string;
-}
-
-interface IBGECityResponse {
-    nome: string;
 }
 
 interface Props {
@@ -47,13 +40,13 @@ const CreatPoint = (props: Props) => {
 
     const { itemsData, ufsData } = props;
 
+    
     const [pointData, setPointData] = useState({
         name: '',
         email: '',
         whatsapp: '',
     });
     const [initialMapPosition, setInitialMapPosition] = useState<[number, number]>([0,0]);
-    const [cities, setCities] = useState<string[]>([]);
 
     const [selectedFile, setSelectedFile] = useState<File>();
     const [selectedMapPosition, setSelectedMapPosition] = useState<[number, number]>( [0,0]);
@@ -67,6 +60,8 @@ const CreatPoint = (props: Props) => {
     const [isValidForm, setIsValidForm] = useState( false);
     const [isShowingMsgsToFillForm, setIsShowingMsgsToFillForm] = useState( false);
 
+    const cities = useCitiesByUf(selectedUf);
+
 
     useEffect( () => {
 
@@ -74,21 +69,8 @@ const CreatPoint = (props: Props) => {
             const { latitude, longitude } = pos.coords;
             setInitialMapPosition([latitude, longitude]);
         });
-    }, [])
+    }, []);
 
-    useEffect( () => {
-
-        if (selectedUf === '0') {
-            return;
-        }
- 
-        axios
-            .get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`)
-            .then( res => {
-                const cityNames = res.data.map( city => city.nome );
-                setCities(cityNames);
-            })
-    }, [selectedUf]);
 
     useEffect( () => {
 
