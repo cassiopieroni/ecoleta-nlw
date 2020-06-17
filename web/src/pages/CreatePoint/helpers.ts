@@ -4,10 +4,18 @@ interface PointData {
     whatsapp: string,
 }
 
-export const createData = ( 
-    pointData: PointData, selectedMapPosition: [number, number], selectedUf: string, 
-    selectedCity: string, selectedItems: number[], selectedFile?: File                  ) => {
+interface PropsData {
+    pointData: PointData; 
+    selectedMapPosition: [number, number];
+    selectedUf: string; 
+    selectedCity: string; 
+    selectedItems: number[]; 
+    selectedFile?: File;
+}
 
+export const createFormData = (propsData: PropsData) => {
+    
+    const { pointData, selectedMapPosition, selectedUf, selectedCity, selectedItems, selectedFile } = propsData;
 
     const { name, email, whatsapp } = pointData;
     const [latitude, longitude] = selectedMapPosition;

@@ -6,6 +6,8 @@ import Header from '../../components/Header';
 import Items from '../../components/Items';
 import PointContact from '../../components/PointContact';
 
+import { withItemsData } from '../../hocs/withItemsData';
+
 import './styles.css';
 
 interface Item {
@@ -29,13 +31,17 @@ interface Data {
     items: { id: number }[];
 }
 
-const Point = () => {
+interface Props {
+    itemsData: Item[];
+}
+
+const Point = (props: Props) => {
+
+    const allItems = props.itemsData;
 
     const { id } = useParams();
 
     const [data, setData] = useState<Data>();
-
-    const [allItems, setAllItems] = useState<Item[]>([]);
 
     const [pointItems, setPointItems] = useState<Item[]>([]);
 
@@ -50,15 +56,8 @@ const Point = () => {
 
     useEffect( () => {
 
-        api.get('items').then( res => {
-            setAllItems(res.data)
-        })
-    }, []);
-
-
-    useEffect( () => {
-
         if (data && data.items && allItems.length) {
+            
             const itemsIds = data.items.map( item => item.id);
             const newPointItems = allItems.filter( item => itemsIds.includes(item.id))
             setPointItems(newPointItems);
@@ -72,6 +71,7 @@ const Point = () => {
 
 
     const { point } = data;
+
 
     return (
 
@@ -106,4 +106,4 @@ const Point = () => {
     )
 }
 
-export default Point;
+export default withItemsData(Point);

@@ -12,7 +12,10 @@ import PointItems from '../../components/Forms/PointItems';
 import IncompleteFormMessage from '../../components/Forms/IncompleteFormMessage';
 import RegistrationMessage from '../../components/RegistrationMessage';
 
-import { createData } from './helpers'
+import { withItemsData } from '../../hocs/withItemsData';
+import { withUfsData } from '../../hocs/withUfsData';
+
+import { createFormData } from './helpers'
 
 import './styles.css';
 
@@ -31,10 +34,18 @@ interface IBGECityResponse {
     nome: string;
 }
 
+interface Props {
+    itemsData: Item[];
+    ufsData: string[];
+}
+
+
 export const IncompleteFieldsOnFormContext = createContext(false);
 
 
-const CreatPoint = () => {
+const CreatPoint = (props: Props) => {
+
+    const { itemsData, ufsData } = props;
 
     const [pointData, setPointData] = useState({
         name: '',
@@ -42,9 +53,7 @@ const CreatPoint = () => {
         whatsapp: '',
     });
     const [initialMapPosition, setInitialMapPosition] = useState<[number, number]>([0,0]);
-    const [ufs, setUfs] = useState<string[]>([]);
     const [cities, setCities] = useState<string[]>([]);
-    const [items, setItems] = useState<Item[]>([]);
 
     const [selectedFile, setSelectedFile] = useState<File>();
     const [selectedMapPosition, setSelectedMapPosition] = useState<[number, number]>( [0,0]);
@@ -69,22 +78,6 @@ const CreatPoint = () => {
 
     useEffect( () => {
 
-        api.get('items').then( res => {
-            setItems(res.data)
-        })
-    }, []);
-    
-    useEffect( () => {
-
-        axios.get<IBGEUFResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
-            .then( res => {
-                const ufInitials = res.data.map( uf => uf.sigla)
-                setUfs(ufInitials);
-            })
-    }, []);
-
-    useEffect( () => {
-
         if (selectedUf === '0') {
             return;
         }
@@ -105,7 +98,7 @@ const CreatPoint = () => {
             (selectedFile && selectedFile.name) &&
             (name && email && whatsapp) &&
             (selectedUf !== '0' && selectedCity !== '0') && 
-            (selectedMapPosition[0] !== 0  && selectedMapPosition[1] !== 0) &&
+            (selectedMapPosition[0] !== 0) &&
             (selectedItems.length)
         );
 
@@ -151,10 +144,16 @@ const CreatPoint = () => {
         
         if (isValidForm) {
 
-            const data = createData( 
-                pointData, selectedMapPosition, selectedUf, 
-                selectedCity, selectedItems, selectedFile
-            );
+            const propsData = {
+                pointData, 
+                selectedMapPosition, 
+                selectedUf, 
+                selectedCity, 
+                selectedItems, 
+                selectedFile
+            }
+
+            const data = createFormData(propsData);
 
             await api.post('points', data)
                 .then( res => {
@@ -198,14 +197,14 @@ const CreatPoint = () => {
                         initialPosition={ initialMapPosition }
                         selectedPosition={ selectedMapPosition }
                         selectedUf={ selectedUf }
-                        ufs={ ufs }
+                        ufs={ ufsData }
                         selectedCity={ selectedCity }
                         cities={ cities }
                     />
 
                     <PointItems 
                         onSelected={ handleSelectedItem }
-                        items={ items }
+                        items={ itemsData }
                         selectedItems={ selectedItems }
                     />
 
@@ -220,7 +219,7 @@ const CreatPoint = () => {
                     </div>
                     
 
-                    <RegistrationMessage isMessage={  isApiResponse } error={ apiResponseError } />
+                    <RegistrationMessage isMessage={ isApiResponse } error={ apiResponseError } />
 
                 </form>
             </IncompleteFieldsOnFormContext.Provider>
@@ -228,4 +227,4 @@ const CreatPoint = () => {
     )
 }
 
-export default CreatPoint;
+export default withUfsData( withItemsData( CreatPoint));

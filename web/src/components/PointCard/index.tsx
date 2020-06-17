@@ -13,12 +13,12 @@ interface Props {
     }
 }
 
-const CollectPoint: React.FC<Props> = ({ point, clicked }) => {
+const PointCard: React.FC<Props> = ({ point, clicked }) => {
 
     const { id, email, image_url, name, whatsapp } = point;
 
     return (
-        <li className='collectPoint' onClick={ () => clicked(id)}>
+        <li className='pointCard' onClick={ () => clicked(id)}>
             <img src={ image_url } alt={ name } />
             <h2>{ name }</h2>
             <p>{ email }</p>
@@ -27,4 +27,4 @@ const CollectPoint: React.FC<Props> = ({ point, clicked }) => {
     )
 }
 
-export default CollectPoint;
+export default PointCard;

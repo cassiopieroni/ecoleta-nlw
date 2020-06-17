@@ -6,7 +6,10 @@ import api from '../../services/api';
 import Header from '../../components/Header';
 import SelectAddress from '../../components/Forms/SelectAddress';
 import PointItems from '../../components/Forms/PointItems';
-import CollectPoint from '../../components/CollectPoint';
+import PointCard from '../../components/PointCard';
+
+import { withItemsData } from '../../hocs/withItemsData';
+import { withUfsData } from '../../hocs/withUfsData';
 
 import './styles.css';
 
@@ -32,16 +35,21 @@ interface Point {
     whatsapp: string;
 }
 
-const Points = () => {
+interface Props {
+    itemsData: Item[];
+    ufsData: string[];
+}
+
+const Points = (props: Props) => {
+    
+    const { itemsData, ufsData } = props;
 
     const history = useHistory();
 
-    const [ufs, setUfs] = useState<string[]>([]);
     const [cities, setCities] = useState<string[]>([]);
     const [selectedUf, setSelectedUf] = useState( '0');
     const [selectedCity, setSelectedCity] = useState( '0');
 
-    const [items, setItems] = useState<Item[]>([]);
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
     const [filtredPoints, setFiltredPoints] = useState<Point[]>([]);
@@ -51,21 +59,6 @@ const Points = () => {
         isFetched: false,
     });
 
-    useEffect( () => {
-
-        api.get('items').then( res => {
-            setItems(res.data)
-        })
-    }, []);
-
-    useEffect( () => {
-
-        axios.get<IBGEUFResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
-            .then( res => {
-                const ufInitials = res.data.map( uf => uf.sigla)
-                setUfs(ufInitials);
-            })
-    }, []);
 
     useEffect( () => {
 
@@ -84,11 +77,11 @@ const Points = () => {
 
     useEffect( () => {
 
-        const fetchingPoints = () => {
+        const fetchingFiltredPoints = () => {
 
-            setLayoutStage( { ...layoutStage, isFetchingData: true, isFetched: false });
+            setLayoutStage( { ...layoutStage, isFetchingData: true });
 
-            const items = String(selectedItems.join(',').trim());
+            const items = String( selectedItems.join(',').trim());
 
             api.get(`/points`, {
                 params: {
@@ -109,7 +102,7 @@ const Points = () => {
         
         if (selectedUf !== '0' && selectedCity !== '0' && selectedItems.length) {
             
-            fetchingPoints();
+            fetchingFiltredPoints();
         }
 
     }, [selectedUf, selectedCity, selectedItems]);
@@ -132,6 +125,7 @@ const Points = () => {
     }
 
     const handleChangePage = (id: number) => {
+
         history.push(`/points/${id}`);
     }
 
@@ -155,7 +149,7 @@ const Points = () => {
                         <SelectAddress 
                             changeAddress={ handleSelectedAddress }
                             selectedUf={ selectedUf }
-                            ufs={ ufs }
+                            ufs={ ufsData }
                             selectedCity={ selectedCity }
                             cities={ cities }
                         />
@@ -164,7 +158,7 @@ const Points = () => {
 
                     <PointItems 
                         onSelected={ handleSelectedItem }
-                        items={ items }
+                        items={ itemsData }
                         selectedItems={ selectedItems }
                         size='small'
                     />
@@ -183,7 +177,7 @@ const Points = () => {
                             <h2>Pontos de coleta: </h2>
                             <ul>
                                 { filtredPoints.map( (point: Point) => (
-                                    <CollectPoint 
+                                    <PointCard 
                                         key={ point.id } 
                                         point={ point } 
                                         clicked={ handleChangePage }    
@@ -205,4 +199,5 @@ const Points = () => {
     )
 }
 
-export default Points;
+
+export default withUfsData( withItemsData(Points));
