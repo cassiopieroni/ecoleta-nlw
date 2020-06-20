@@ -1,7 +1,6 @@
 import React from 'react';
 
-import './styles.css';
-
+import { LI } from './styles';
 
 interface Props {
     item: {
@@ -18,21 +17,20 @@ const Item: React.FC<Props> = ({ item, isSelected, onSelected, size }) => {
 
     const clicked = () => onSelected ? onSelected(item.id) : null;
 
-    let classStyle = 'collectItem';
-        if (isSelected) classStyle += ' selected';
-        if (size === 'small') classStyle += ' smallItem';
-        if (onSelected) classStyle += ' pointer';
-
-        
+    
     return (
 
-        <li 
-            onClick={ clicked }
-            className={ classStyle }
+        <LI 
+            onClick={ clicked } 
+            isSelected={ isSelected ? true : false } 
+            isSmall={ (size && size === 'small') ? true : false } 
+            isClickable={ (onSelected) ? true: false } 
         >
+            
             <img src={ item.image_url } alt={ item.title }/>
             <span>{ item.title }</span>
-        </li>
+        
+        </LI>
     )
 } 
 

@@ -5,7 +5,7 @@ import { FiMail } from 'react-icons/fi';
 
 import MapBox from '../MapBox';
 
-import './styles.css';
+import { DIV, DIV_CONTACT, DIV_CONTACT_INFOS, DIV_MAP } from './styles';
 
 
 interface Props {
@@ -27,13 +27,13 @@ const PointContact: React.FC<Props> = ({ point }) => {
 
     return (
 
-        <div className='contact'>
+        <DIV>
 
             <h2>Contato</h2>
 
-            <div className="contact-content">
+            <DIV_CONTACT>
 
-                <div className='contact-infos' >
+                <DIV_CONTACT_INFOS>
 
                     <div>
                         <FiMail />
@@ -50,20 +50,20 @@ const PointContact: React.FC<Props> = ({ point }) => {
                         <p>{`${ city }, ${ uf }`}</p>
                     </div>
 
-                </div>
+                </DIV_CONTACT_INFOS>
 
-                <div className='map'>
+                <DIV_MAP>
 
                     <MapBox 
                         initialPosition={ [latitude, longitude] } 
                         selectedPosition={ [latitude, longitude] } 
                     />
 
-                </div>
+                </DIV_MAP>
             
-            </div>
+            </DIV_CONTACT>
         
-        </div>
+        </DIV>
     )
 };
 

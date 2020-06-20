@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './styles.css';
+import { LI } from './styles';
 
 interface Props {
     clicked: (id: number) => void;
@@ -13,17 +13,20 @@ interface Props {
     }
 }
 
+
 const PointCard: React.FC<Props> = ({ point, clicked }) => {
 
     const { id, email, image_url, name, whatsapp } = point;
 
+    
     return (
-        <li className='pointCard' onClick={ () => clicked(id)}>
+
+        <LI onClick={ () => clicked(id)}>
             <img src={ image_url } alt={ name } />
             <h2>{ name }</h2>
             <p>{ email }</p>
             <p>Tel: { whatsapp }</p>
-        </li>
+        </LI>
     )
 }
 

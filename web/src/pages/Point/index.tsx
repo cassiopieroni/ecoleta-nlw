@@ -8,7 +8,8 @@ import PointContact from '../../components/PointContact';
 
 import { withItemsData } from '../../hocs/withItemsData';
 
-import './styles.css';
+import { DIV_PAGE, DIV_CONTAINER, DIV } from './styles';
+
 
 interface Item {
     id: number;
@@ -34,6 +35,7 @@ interface Data {
 interface Props {
     itemsData: Item[];
 }
+
 
 const Point = (props: Props) => {
 
@@ -75,17 +77,17 @@ const Point = (props: Props) => {
 
     return (
 
-        <div id='page-point' >
+        <DIV_PAGE>
 
             <Header />
 
-            <main>
+            <DIV_CONTAINER>
 
                 <h1>{ point.name }</h1>
                 
-                <img className='point-image' src={ point.image_url } alt={ point.name }/>
+                <img src={ point.image_url } alt={ point.name }/>
 
-                <div className="point-items">
+                <DIV>
 
                     <h2>Items de coleta</h2>
 
@@ -95,14 +97,14 @@ const Point = (props: Props) => {
                         selectedItems={ pointItems.map( item => item.id)}
                     />
 
-                </div>
+                </DIV>
 
                 <PointContact point={ point } />
 
-            </main>
+            </DIV_CONTAINER>
 
 
-        </div>
+        </DIV_PAGE>
     )
 }
 

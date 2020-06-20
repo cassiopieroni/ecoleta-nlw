@@ -5,11 +5,11 @@ import { LeafletMouseEvent } from 'leaflet';
 
 import Header from '../../components/Header';
 import Dropzone from '../../components/Dropzone';
-import PointData from '../../components/Forms/PointData';
-import PointAddress from '../../components/Forms/PointAddress';
-import PointItems from '../../components/Forms/PointItems';
-import IncompleteFormMessage from '../../components/Forms/IncompleteFormMessage';
-import RegistrationMessage from '../../components/RegistrationMessage';
+import PointData from '../../components/Fieldsets/PointData';
+import PointAddress from '../../components/Fieldsets/PointAddress';
+import PointItems from '../../components/Fieldsets/PointItems';
+import TextErrorMessage from '../../components/Messages/TextErrorMessage';
+import RegistrationMessage from '../../components/Messages/RegistrationMessage';
 
 import { withItemsData } from '../../hocs/withItemsData';
 import { withUfsData } from '../../hocs/withUfsData';
@@ -18,7 +18,7 @@ import { useCitiesByUf } from '../../hooks/useCitiesByUf';
 
 import { createFormData } from './helpers'
 
-import './styles.css';
+import { DIV_PAGE, DIV_CONTAINER, FORM } from './styles'
 
 
 interface Item {
@@ -54,11 +54,11 @@ const CreatPoint = (props: Props) => {
     const [selectedCity, setSelectedCity] = useState( '0');
     const [selectedItems, setSelectedItems] = useState<number[]>([]); 
 
-    const [isApiResponse, setIsApiResponse] = useState( false);
-    const [apiResponseError, setApiResponseError] = useState( {});
-
     const [isValidForm, setIsValidForm] = useState( false);
     const [isShowingMsgsToFillForm, setIsShowingMsgsToFillForm] = useState( false);
+
+    const [isApiResponse, setIsApiResponse] = useState( false);
+    const [apiResponseError, setApiResponseError] = useState( {});
 
     const cities = useCitiesByUf(selectedUf);
 
@@ -111,7 +111,7 @@ const CreatPoint = (props: Props) => {
     }
 
     const handleSelectedItem = (id: number) => {
-        console.log('item')
+
         const isAlreadySelected = selectedItems.some( item => item === id );
         const newItems = (isAlreadySelected) 
             ? selectedItems.filter( item => item !== id)
@@ -156,56 +156,67 @@ const CreatPoint = (props: Props) => {
 
     return (
 
-        <div id="page-create-point">
+        <DIV_PAGE>
             
             <Header />
 
             <IncompleteFieldsOnFormContext.Provider value={ isShowingMsgsToFillForm } >
                 
-                <form onSubmit={ handleSubmit }>
+                <DIV_CONTAINER>
 
-                    <h1>Cadastro do ponto de coleta</h1>
+                    <FORM onSubmit={ handleSubmit }>
 
-                    <Dropzone onFileUploaded={ setSelectedFile } />
+                        <h1>Cadastro do ponto de coleta</h1>
 
-                    <PointData 
-                        changed={ handleChangePointData } 
-                        data={ pointData }    
-                    />
+                        <Dropzone onFileUploaded={ setSelectedFile } />
 
-                    <PointAddress
-                        clickedOnMap={ handleMapClick }
-                        changeAddress={ handleSelectedAddress }
-                        initialPosition={ initialMapPosition }
-                        selectedPosition={ selectedMapPosition }
-                        selectedUf={ selectedUf }
-                        ufs={ ufsData }
-                        selectedCity={ selectedCity }
-                        cities={ cities }
-                    />
+                        <PointData 
+                            changed={ handleChangePointData } 
+                            data={ pointData }    
+                        />
 
-                    <PointItems 
-                        onSelected={ handleSelectedItem }
-                        items={ itemsData }
-                        selectedItems={ selectedItems }
-                    />
+                        <PointAddress
+                            map={{
+                                clickedOnMap: handleMapClick,
+                                initialPosition: initialMapPosition,
+                                selectedPosition: selectedMapPosition,
+                            }}
+                            changeAddress={ handleSelectedAddress }
+                            selectedUf={ selectedUf }
+                            ufs={ ufsData }
+                            selectedCity={ selectedCity }
+                            cities={ cities }
+                        />
 
-                    <div>
-                        <button type='submit'>
-                            Cadastrar Ponto de Coleta
-                        </button>
+                        <PointItems 
+                            onSelected={ handleSelectedItem }
+                            items={ itemsData }
+                            selectedItems={ selectedItems }
+                        />
 
-                        { (isShowingMsgsToFillForm && !isValidForm) && 
-                            <IncompleteFormMessage>Preencha os campos obrigatórios*</IncompleteFormMessage>
-                        }
-                    </div>
-                    
+                        <div>
+                            
+                            <button type='submit'>
+                                Cadastrar Ponto de Coleta
+                            </button>
 
-                    <RegistrationMessage isMessage={ isApiResponse } error={ apiResponseError } />
+                            { (isShowingMsgsToFillForm && !isValidForm) && (
+                                <TextErrorMessage>
+                                    Preencha os campos obrigatórios*
+                                </TextErrorMessage>
+                            )}
+                        </div>
+                        
 
-                </form>
+                        <RegistrationMessage isMessage={ isApiResponse } error={ apiResponseError } />
+
+                    </FORM>
+
+                </DIV_CONTAINER>
+
             </IncompleteFieldsOnFormContext.Provider>
-        </div>
+
+        </DIV_PAGE>
     )
 }
 

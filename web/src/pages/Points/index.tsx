@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 
 import Header from '../../components/Header';
-import SelectAddress from '../../components/Forms/SelectAddress';
-import PointItems from '../../components/Forms/PointItems';
+import PointAddress from '../../components/Fieldsets/PointAddress';
+import PointItems from '../../components/Fieldsets/PointItems';
 import PointCard from '../../components/PointCard';
 
 import { withItemsData } from '../../hocs/withItemsData';
@@ -13,7 +13,8 @@ import { withUfsData } from '../../hocs/withUfsData';
 
 import { useCitiesByUf } from '../../hooks/useCitiesByUf';
 
-import './styles.css';
+import { DIV_PAGE, DIV_CONTAINER, FORM, DIV_RESPONSE_API } from './styles';
+
 
 interface Item {
     id: number;
@@ -114,30 +115,24 @@ const Points = (props: Props) => {
 
     return (
 
-        <div id='points'>
+        <DIV_PAGE>
             
             <Header/>
 
-            <section>
+            <DIV_CONTAINER>
                 
-                <form>
+                <FORM>
+                    
                     <h1>Encontre um ponto de coleta</h1>
 
-                    <fieldset className='layout-fieldset'>
-                        <legend>
-                            <h2>Endereço</h2>
-                            <span>Selecione a UF e a cidade</span>
-                        </legend>
 
-                        <SelectAddress 
-                            changeAddress={ handleSelectedAddress }
-                            selectedUf={ selectedUf }
-                            ufs={ ufsData }
-                            selectedCity={ selectedCity }
-                            cities={ cities }
-                        />
-                
-                    </fieldset>
+                    <PointAddress 
+                        changeAddress={ handleSelectedAddress }
+                        selectedUf={ selectedUf }
+                        ufs={ ufsData }
+                        selectedCity={ selectedCity }
+                        cities={ cities }
+                    />
 
                     <PointItems 
                         onSelected={ handleSelectedItem }
@@ -146,10 +141,10 @@ const Points = (props: Props) => {
                         size='small'
                     />
 
-                </form>
+                </FORM>
 
 
-                <div className='responseBox'>
+                <DIV_RESPONSE_API>
                     
                     { isFetchingData && (
                         <span>Buscando Pontos de coleta...</span>
@@ -173,11 +168,12 @@ const Points = (props: Props) => {
                     { (isFetchedData && filtredPoints.length === 0) && (
                         <span>Não há nenhum ponto de coleta deste tipo cadastrado nessa região.</span>
                     )}
-                </div>
 
-            </section>
+                </DIV_RESPONSE_API>
 
-        </div>
+            </DIV_CONTAINER>
+
+        </DIV_PAGE>
             
     )
 }

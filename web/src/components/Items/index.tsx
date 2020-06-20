@@ -1,7 +1,7 @@
 import React from 'react';
 import Item from '../Item';
 
-import './styles.css';
+import { UL } from './styles';
 
 interface Item {
     id: number;
@@ -19,7 +19,7 @@ interface Props {
 
 const Items: React.FC<Props> = ({ onSelected, items, selectedItems, size }) => (
 
-    <ul className='items-grid'>
+    <UL>
         { items.map( item => (
 
             <Item 
@@ -30,7 +30,7 @@ const Items: React.FC<Props> = ({ onSelected, items, selectedItems, size }) => (
                 size={ (size) && size }
             />
         ))}   
-    </ul>
+    </UL>
 );
 
 export default Items;

@@ -2,46 +2,52 @@ import React from 'react';
 import { FiLogIn, FiSearch } from 'react-icons/fi';
 
 import Header from '../../components/Header';
-import ButtonLink from '../../components/Links/ButtonLink';
-import DefaultLink from '../../components/Links/DefaultLink';
+import SecondaryLink from '../../components/Links/SecondaryLink';
+import PrimaryLink from '../../components/Links/PrimaryLink';
 
 import coletaImg from '../../assets/home-background.svg';
 
-import './styles.css';
+import { DIV_PAGE_HOME, DIV_CONTENT, DIV_IMAGE_BOX } from './styles';
 
 
 const Home = () => {
 
-    return (
-        <div id="page-home">
-            <div className="content">
+    const LinkToCreatePoint = () => (
+        <PrimaryLink to='/create-point'>
+            <FiLogIn />
+            Cadastre um ponto de coleta
+        </PrimaryLink>
+    );
 
-                <Header>
-                    <DefaultLink to='/create-point'>
-                        <FiLogIn />
-                        Cadastre um ponto de coleta
-                    </DefaultLink>
+    return (
+        <DIV_PAGE_HOME>
+            <DIV_CONTENT>
+
+                <Header> 
+                    <LinkToCreatePoint /> 
                 </Header>
                 
                 <main>
+
                     <div>
                         <h1>Seu marketplace de coleta de resíduos</h1>
                         <p>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente</p>
 
-                        <ButtonLink to="/points">
+                        <SecondaryLink to="/points">
                             <span><FiSearch /></span>
                             <strong>Encontre um ponto de coleta</strong>
-                        </ButtonLink>
+                        </SecondaryLink>
                     </div>
 
-                    <div className='imageBox'>
+                    <DIV_IMAGE_BOX>
                         <img src={ coletaImg } alt="coleta de recicláveis"/>
-                    </div>
+                    </DIV_IMAGE_BOX>
+
                 </main>
 
                 
-            </div>
-        </div>
+            </DIV_CONTENT>
+        </DIV_PAGE_HOME>
     )
 }
 
